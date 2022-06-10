@@ -1,16 +1,21 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { DataProvider } from "./context/Data";
 
 // import pages
 import Categories from './pages/Categories';
+import Category from './pages/Category';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <DataProvider>
+      <BrowserRouter>
+        <Routes>
         <Route path='/' element={<Categories />} />
-      </Routes>
-    </BrowserRouter>
+        <Route path='/:category' element={<Category />} />
+        </Routes>
+      </BrowserRouter>
+    </DataProvider>
   );
 }
 

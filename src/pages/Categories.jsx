@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { DataContext } from '../context/Data';
+import { Link } from 'react-router-dom';
 
 // import components
 import Nav from '../components/Nav';
@@ -6,21 +8,8 @@ import SimpleCard from '../components/SimpleCard';
 
 const Categories = () => {
 
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            category: 'Heart',
-        },{
-            id: 2,
-            category: 'Kidney',
-        },{
-            id: 3,
-            category: 'Brain',
-        },{
-            id: 4,
-            category: 'Stomach',
-        }
-    ]);
+    const [categories, setCategories] = useContext(DataContext);
+
     return (
         <div>
             <Nav />
@@ -29,10 +18,14 @@ const Categories = () => {
                 <div className="pb-12">
                     {categories.map((category) => {
                         return (
-                            <SimpleCard
-                                category={category.category}
+                            <Link
+                                to={`/${category.category}`}
                                 key={category.id}
-                            />
+                            >
+                                <SimpleCard
+                                    item={category.category}                                    
+                                />
+                            </Link>
                         )
                     })}
                 </div>

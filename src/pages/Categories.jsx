@@ -23,7 +23,8 @@ const Categories = () => {
                                 key={category.id}
                             >
                                 <SimpleCard
-                                    item={category.category}                                    
+                                    item={category.category}
+                                    image={category.image}
                                 />
                             </Link>
                         )

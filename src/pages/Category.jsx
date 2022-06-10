@@ -35,6 +35,7 @@ const Categories = () => {
                         return (
                             <SimpleCard
                                 item={doctor.name}
+                                image={doctor.image}
                                 key={doctor.id}
                             />
                         )

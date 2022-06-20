@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 // import components
 import NavIcon from './NavIcon';
@@ -12,9 +12,21 @@ import NotificationsEnabled from '../assets/icons/notificationsEnabled.svg';
 const Nav = () => {
 
     const navigate = useNavigate();
+    const params = useParams();
+    const [navTransparent, setNavTransparent] = useState(false);
+
+    const navStyle = () => {
+        if ( params.id ) {
+            setNavTransparent(true);
+        }
+    }
+
+    useEffect(() => {
+        navStyle();
+    },[]);    
 
     return (
-        <nav className="px-10 mx-0 py-4 flex items-center justify-between fixed w-full bg-white">
+        <nav className={`px-10 mx-0 py-4 flex items-center justify-between fixed w-full z-10 ${navTransparent ? "" : "bg-white"}`}>
             <div onClick={() => navigate(-1)}>
                 <NavIcon src={BackArrow} alt={'< BACK'} />
             </div>

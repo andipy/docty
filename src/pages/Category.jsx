@@ -1,22 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DataContext } from '../context/Data';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 // import components
 import Nav from '../components/Nav';
 import SimpleCard from '../components/SimpleCard';
 
-const Categories = () => {
+const Category = () => {
 
-    const [categories, setCategories] = useContext(DataContext);
+    const [data, setData] = useContext(DataContext);
 
-    const params = useParams();    
+    const params = useParams();
 
     const [doctors, setDoctors] = useState([]);
     const getDoctors = () => {
-        categories.map((category) => {
-            if ( category.category == params.category ) {
-                setDoctors(category.doctors);
+        data.map((data) => {
+            if ( data.category == params.category ) {
+                setDoctors(data.doctors);
             }
         })
     }
@@ -33,11 +33,15 @@ const Categories = () => {
                 <div className="pb-12">
                     {doctors.map((doctor) => {
                         return (
-                            <SimpleCard
-                                item={doctor.name}
-                                image={doctor.image}
+                            <Link
+                                to={`/${params.category}/${doctor.id}`}
                                 key={doctor.id}
-                            />
+                            >
+                                <SimpleCard
+                                    item={doctor.name}
+                                    image={doctor.image}
+                                />
+                            </Link>
                         )
                     })}
                 </div>
@@ -46,4 +50,4 @@ const Categories = () => {
     )
 }
 
-export default Categories;
+export default Category;

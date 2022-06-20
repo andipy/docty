@@ -8,7 +8,7 @@ import SimpleCard from '../components/SimpleCard';
 
 const Categories = () => {
 
-    const [categories, setCategories] = useContext(DataContext);
+    const [data, setData] = useContext(DataContext);
 
     return (
         <div>
@@ -16,15 +16,15 @@ const Categories = () => {
             <div className="px-10 mx-0 pt-20">
                 <h2 className="text-3xl font-bold">Categories</h2>
                 <div className="pb-12">
-                    {categories.map((category) => {
+                    {data.map((data) => {
                         return (
                             <Link
-                                to={`/${category.category}`}
-                                key={category.id}
+                                to={`/${data.category}`}
+                                key={data.id}
                             >
                                 <SimpleCard
-                                    item={category.category}
-                                    image={category.image}
+                                    item={data.category}
+                                    image={data.image}
                                 />
                             </Link>
                         )

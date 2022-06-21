@@ -15,12 +15,14 @@ const DoctorHeader = ({ doctorName, imageCover, doctorSubscribers, doctorTags })
         if ( subscription == false ) {
             setButton({
                 label: 'Subscribe',
-                style: 'w-full bg-teal-900 text-white'
+                style: 'w-full bg-teal-900 text-white mt-3 py-2 rounded-lg font-regular',
+                disabled: false
             });
         } else {
             setButton({
                 label: 'Unsubscribe',
-                style: 'w-full bg-gray-300 text-gray-400'
+                style: 'w-full bg-gray-300 text-gray-400 mt-3 py-2 rounded-lg font-regular',
+                disabled: false
             });
         }
     },[subscription])
@@ -49,7 +51,7 @@ const DoctorHeader = ({ doctorName, imageCover, doctorSubscribers, doctorTags })
                     </div>                
                 </div>
 
-                <Button buttonLabel={'click'} onClickFunction={handleSubscription} button={button} />
+                <Button onClickFunction={handleSubscription} button={button} />
             </div>
         </div>        
     )

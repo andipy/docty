@@ -1,8 +1,14 @@
 import React from "react";
 
-const Button = ({buttonLabel, onClickFunction, button}) => {
+const Button = ({onClickFunction, button}) => {
     return (
-        <button className={button.style + " mt-3 py-2 rounded-lg font-regular" }onClick={onClickFunction}>{button.label}</button>
+        <button
+            className={button.style}
+            disabled={button.disabled}
+            onClick={onClickFunction}
+        >
+            {button.label}
+        </button>
     )
 }
 

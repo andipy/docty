@@ -6,20 +6,64 @@ import Button from "../components/Button";
 
 const Signup = () => {
 
+    function validate(elem, regex) {
+        var re = new RegExp(regex);
+        return re.test(elem);
+    }
+
+    const [valuesValidity, setValuesValidity] = useState({
+        email: false,
+        create_password: false,
+        confirm_password: false
+    });
+
     const [values, setValues] = useState({
         email: '',
         create_password: '',
         confirm_password: ''
     })
+
     const handleInput = (e) => {
         setValues({...values, [e.target.name]: e.target.value});
+
+        for ( var i = 0; i < inputs.length; i++ ) {       
+
+            if (e.target == document.activeElement && e.target.name == 'email') {
+                if ( validate(values.email, inputs[i].pattern) ) {
+                    setValuesValidity({...valuesValidity, [e.target.name]: true});
+                } else {
+                    setValuesValidity({...valuesValidity, [e.target.name]: false});
+                };
+                console.log('sono attivo email');
+                break;
+                
+            }
+
+            if (e.target.name == 'create_password') {
+                if ( validate(values.create_password, inputs[i].pattern) ) {
+                    setValuesValidity({...valuesValidity, [e.target.name]: true});
+                } else {
+                    setValuesValidity({...valuesValidity, [e.target.name]: false});
+                };
+                console.log('sono attivo crea');
+                break;
+            }
+                    
+            if (e.target.name == 'confirm_password') {
+                if ( inputs[i].pattern ) {
+                    setValuesValidity({...valuesValidity, [e.target.name]: true});
+                } else {
+                    setValuesValidity({...valuesValidity, [e.target.name]: false});
+                };
+                console.log('sono attivo conferma');
+                break;
+            }
+        }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
     }
-
-    console.log(values);
 
     const inputs = [
         {
@@ -29,6 +73,7 @@ const Signup = () => {
             name: 'email',
             placeholder: 'Type your email here',
             required: true,
+            pattern: '^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5})$'
         },{
             id: 2,
             label: 'Create a password',
@@ -36,7 +81,7 @@ const Signup = () => {
             name: 'create_password',
             placeholder: 'Type a new password',
             required: true,
-            pattern:'^[A-Za-z0-9]{8,16}$'
+            pattern:'^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$'
         },{
             id: 3,
             label: 'Confirm your password',
@@ -48,26 +93,10 @@ const Signup = () => {
         }
     ]
 
-    const [validity, setValidity] = useState(false);
-    useEffect(()=>{
-        inputs.map((input) => {
-            var inputPattern = new RegExp(input.pattern);
-            if ( inputPattern.test(input) ) {
-                setValidity(true);
-                console.log(validity);
-            } else {
-                setValidity(false);
-                console.log(validity);
-            }
-        })
-    }, [setValues]);
-
-
     ///////////////////////////
-    const [inputsValid, setInputsValid] = useState(false);
     const [button, setButton] = useState({});    
     useEffect(() => {
-        if ( inputsValid == false ) {
+        if ( !valuesValidity.email || !valuesValidity.create_password || !valuesValidity.confirm_password ) {
             setButton({
                 label: 'Create account',
                 style: 'w-full bg-gray-300 text-gray-400 mt-3 py-3 rounded-lg font-regular',
@@ -80,7 +109,7 @@ const Signup = () => {
                 disabled: false
             });
         }
-    },[inputsValid])
+    },[values])
 
     return (
         <div className="px-10 mx-0 pt-20">

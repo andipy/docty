@@ -11,7 +11,7 @@ const Input = ({ placeholder, type, label, name, onChange }) => {
                 name={name}
                 onChange={onChange}
             />
-        </div>        
+        </div>
     )
 }
 

@@ -3,68 +3,89 @@ import React, { useState, useEffect } from "react";
 // import components
 import Input from '../components/Input';
 import Button from "../components/Button";
+import Checkbox from "../components/Checkbox";
 
 const Signup = () => {
 
-    function validate(elem, regex) {
-        var re = new RegExp(regex);
-        return re.test(elem);
-    }
-
+    // state to store information about the validity of the inputs
     const [valuesValidity, setValuesValidity] = useState({
         email: false,
         create_password: false,
-        confirm_password: false
+        confirm_password: false,
+        checkbox: false
     });
 
+    // state to store the data input by the user in the registration inputs
     const [values, setValues] = useState({
         email: '',
         create_password: '',
-        confirm_password: ''
+        confirm_password: '',
+        checkbox: ''
     })
 
+    // function that grabs the data input by the user in the inputs and stores it into the related state; and updates the information about the validity of the data input by the user in the inputs based on the patterrn required by each input
     const handleInput = (e) => {
         setValues({...values, [e.target.name]: e.target.value});
 
-        for ( var i = 0; i < inputs.length; i++ ) {       
+        if (e.target.name == 'email') {
+            var re = new RegExp(inputs[0].pattern);
+            if ( re.test(e.target.value) ) {
+                setValuesValidity({...valuesValidity, [e.target.name]: true});
+            } else {
+                setValuesValidity({...valuesValidity, [e.target.name]: false});
+            };
+        }
 
-            if (e.target == document.activeElement && e.target.name == 'email') {
-                if ( validate(values.email, inputs[i].pattern) ) {
-                    setValuesValidity({...valuesValidity, [e.target.name]: true});
-                } else {
-                    setValuesValidity({...valuesValidity, [e.target.name]: false});
-                };
-                console.log('sono attivo email');
-                break;
+        if (e.target.name == 'create_password') {
+            var re = new RegExp(inputs[1].pattern);
+            if ( re.test(e.target.value) ) {
+                setValuesValidity({...valuesValidity, [e.target.name]: true});
+            } else {
+                setValuesValidity({...valuesValidity, [e.target.name]: false});
+            };
+        }
                 
-            }
+        if (e.target.name == 'confirm_password') {
+            if ( e.target.value == values.create_password ) {
+                setValuesValidity({...valuesValidity, [e.target.name]: true});
+            } else {
+                setValuesValidity({...valuesValidity, [e.target.name]: false});
+            };
+        }
+    }    
 
-            if (e.target.name == 'create_password') {
-                if ( validate(values.create_password, inputs[i].pattern) ) {
-                    setValuesValidity({...valuesValidity, [e.target.name]: true});
-                } else {
-                    setValuesValidity({...valuesValidity, [e.target.name]: false});
-                };
-                console.log('sono attivo crea');
-                break;
-            }
-                    
-            if (e.target.name == 'confirm_password') {
-                if ( inputs[i].pattern ) {
-                    setValuesValidity({...valuesValidity, [e.target.name]: true});
-                } else {
-                    setValuesValidity({...valuesValidity, [e.target.name]: false});
-                };
-                console.log('sono attivo conferma');
-                break;
-            }
+    // function that updates the information about the validity of the checkbox input, based on the fact that is checked or unchecked
+    const handleCheck = (e) => {
+        console.log(e.target.name);
+        if (e.target.name == 'checkbox') {
+            setValuesValidity({...valuesValidity, [e.target.name]: e.target.checked});
         }
     }
 
+    // state and useEffect to handle button status (style, and "enabled vs diasabled"), based on the validity of the inputs and checkbox
+    const [button, setButton] = useState({});    
+    useEffect(() => {
+        if ( valuesValidity.email == true && valuesValidity.create_password == true && valuesValidity.confirm_password == true && valuesValidity.checkbox == true ) {
+            setButton({
+                label: 'Create account',
+                style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
+                disabled: false                
+            });
+        } else {
+            setButton({
+                label: 'Create account',
+                style: 'w-full bg-gray-300 text-gray-400 mt-3 py-3 rounded-lg font-regular',
+                disabled: true                
+            });
+        }
+    },[valuesValidity])
+
+    // function to prevent the page to refresh when the registration for button is submitted
     const handleSubmit = (e) => {
         e.preventDefault();
     }
 
+    // array with the data about the inputs needed in the registration form
     const inputs = [
         {
             id: 1,
@@ -93,26 +114,18 @@ const Signup = () => {
         }
     ]
 
-    ///////////////////////////
-    const [button, setButton] = useState({});    
-    useEffect(() => {
-        if ( !valuesValidity.email || !valuesValidity.create_password || !valuesValidity.confirm_password ) {
-            setButton({
-                label: 'Create account',
-                style: 'w-full bg-gray-300 text-gray-400 mt-3 py-3 rounded-lg font-regular',
-                disabled: true
-            });
-        } else {
-            setButton({
-                label: 'Create account',
-                style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
-                disabled: false
-            });
-        }
-    },[values])
+    // object with the data about the checkbox
+    const checkbox = {
+        id: 1,
+        type: 'checkbox',
+        name: 'checkbox',
+        required: true
+    }
 
     return (
         <div className="px-10 mx-0 pt-20">
+            <h1 className="text-3xl font-bold mb-2">Hello,</h1>
+            <p className="font-semibold mb-8">Create your account with email and password!</p>
             <form action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {
                     return (                    
@@ -127,6 +140,11 @@ const Signup = () => {
                         />
                     )
                 })}
+                <Checkbox
+                    type={checkbox.type}
+                    name={checkbox.name}
+                    handleCheck={handleCheck}
+                />
                 <Button button={button} />
             </form>            
         </div>

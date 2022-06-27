@@ -1,29 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 // import components
 import Input from '../components/Input';
 import Button from "../components/Button";
-import Checkbox from "../components/Checkbox";
 
-const Signup = () => {
+const Login = () => {
 
     let navigate = useNavigate();
 
     // state to store information about the validity of the inputs
     const [valuesValidity, setValuesValidity] = useState({
         email: false,
-        create_password: false,
-        confirm_password: false,
-        checkbox: false
+        password: false,
     });
 
     // state to store the data input by the user in the registration inputs
     const [values, setValues] = useState({
         email: '',
-        create_password: '',
-        confirm_password: '',
-        checkbox: ''
+        password: '',
     })
 
     // function that grabs the data input by the user in the inputs and stores it into the related state; and updates the information about the validity of the data input by the user in the inputs based on the patterrn required by each input
@@ -39,7 +34,7 @@ const Signup = () => {
             };
         }
 
-        if (e.target.name == 'create_password') {
+        if (e.target.name == 'password') {
             var re = new RegExp(inputs[1].pattern);
             if ( re.test(e.target.value) ) {
                 setValuesValidity({...valuesValidity, [e.target.name]: true});
@@ -47,36 +42,20 @@ const Signup = () => {
                 setValuesValidity({...valuesValidity, [e.target.name]: false});
             };
         }
-                
-        if (e.target.name == 'confirm_password') {
-            if ( e.target.value == values.create_password ) {
-                setValuesValidity({...valuesValidity, [e.target.name]: true});
-            } else {
-                setValuesValidity({...valuesValidity, [e.target.name]: false});
-            };
-        }
-    }    
-
-    // function that updates the information about the validity of the checkbox input, based on the fact that is checked or unchecked
-    const handleCheck = (e) => {
-        console.log(e.target.name);
-        if (e.target.name == 'checkbox') {
-            setValuesValidity({...valuesValidity, [e.target.name]: e.target.checked});
-        }
     }
 
     // state and useEffect to handle button status (style, and "enabled vs diasabled"), based on the validity of the inputs and checkbox
-    const [buttonSignup, setButtonSignup] = useState({});    
+    const [button, setButton] = useState({});    
     useEffect(() => {
-        if ( valuesValidity.email == true && valuesValidity.create_password == true && valuesValidity.confirm_password == true && valuesValidity.checkbox == true ) {
-            setButtonSignup({
-                label: 'Create account',
+        if ( valuesValidity.email == true && valuesValidity.password == true ) {
+            setButton({
+                label: 'Login',
                 style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
                 disabled: false                
             });
         } else {
-            setButtonSignup({
-                label: 'Create account',
+            setButton({
+                label: 'Login',
                 style: 'w-full bg-gray-300 text-gray-400 mt-3 py-3 rounded-lg font-regular',
                 disabled: true                
             });
@@ -102,39 +81,23 @@ const Signup = () => {
             id: 2,
             label: 'Create a password',
             type: 'password',
-            name: 'create_password',
+            name: 'password',
             placeholder: 'Type a new password',
             required: true,
             pattern:'^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$'
-        },{
-            id: 3,
-            label: 'Confirm your password',
-            type: 'password',
-            name: 'confirm_password',
-            placeholder: 'Type your password again',
-            required: true,
-            pattern: values.password
         }
     ]
 
-    // object with the data about the checkbox
-    const checkbox = {
-        id: 1,
-        type: 'checkbox',
-        name: 'checkbox',
-        required: true
-    }
-
-    const buttonGoToLogin = {
-        label: 'Go to login',
+    const buttonGoToSignup = {
+        label: 'Go to signup',
         style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
         disabled: false
     }
 
     return (
         <div className="px-10 mx-0 pt-20 pb-10">
-            <h1 className="text-3xl font-bold mb-2">Hello,</h1>
-            <p className="font-semibold mb-8">Create your account with email and password!</p>
+            <h1 className="text-3xl font-bold mb-2">Welcome back,</h1>
+            <p className="font-semibold mb-8">Login with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {
                     return (                    
@@ -148,21 +111,16 @@ const Signup = () => {
                             onChange={handleInput}
                         />
                     )
-                })}
-                <Checkbox
-                    type={checkbox.type}
-                    name={checkbox.name}
-                    handleCheck={handleCheck}
-                />
-                <Button button={buttonSignup} />            
+                })}                
+                <Button button={button} />                
             </form>
-            <h4 className="text-xl font-bold">Already have an account?</h4>
+            <h4 className="text-xl font-bold">Don't have an account yet?</h4>
             <Button
-                button={buttonGoToLogin}
-                onClickFunction={()=>{navigate("/login")}}
+                button={buttonGoToSignup}
+                onClickFunction={()=>{navigate("/signup")}}            
             />
         </div>
     )
 }
 
-export default Signup;
+export default Login;

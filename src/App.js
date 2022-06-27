@@ -7,6 +7,7 @@ import Categories from './pages/Categories';
 import Category from './pages/Category';
 import Videos from "./pages/Videos";
 import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Navigate replace to='/signup' />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/categories' element={<Categories />} />
           <Route path='/:category' element={<Category />} />
           <Route path='/:category/:id' element={<Videos />} />       

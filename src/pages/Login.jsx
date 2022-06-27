@@ -65,6 +65,7 @@ const Login = () => {
     // function to prevent the page to refresh when the registration for button is submitted
     const handleSubmit = (e) => {
         e.preventDefault();
+        navigate('/categories');
     }
 
     // array with the data about the inputs needed in the registration form
@@ -74,15 +75,15 @@ const Login = () => {
             label: 'Your email',
             type: 'email',
             name: 'email',
-            placeholder: 'Type your email here',
+            placeholder: 'Type your email',
             required: true,
             pattern: '^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5})$'
         },{
             id: 2,
-            label: 'Create a password',
+            label: 'Your password',
             type: 'password',
             name: 'password',
-            placeholder: 'Type a new password',
+            placeholder: 'Type your password',
             required: true,
             pattern:'^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$'
         }

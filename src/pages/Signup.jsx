@@ -86,6 +86,7 @@ const Signup = () => {
     // function to prevent the page to refresh when the registration for button is submitted
     const handleSubmit = (e) => {
         e.preventDefault();
+        navigate('/categories');
     }
 
     // array with the data about the inputs needed in the registration form

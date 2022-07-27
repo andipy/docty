@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { DataContext } from '../context/Data';
+// import { DataContext } from '../context/Data';
 import { useParams, Link } from "react-router-dom";
 
 // import components
@@ -8,22 +8,29 @@ import SimpleCard from '../components/SimpleCard';
 
 const Category = () => {
 
-    const [data, setData] = useContext(DataContext);
+    // const [data, setData] = useContext(DataContext);
 
     const params = useParams();
 
+    const [data, setData] = useState([]);
+    const getData = async (name) => {
+        const api = await fetch(`https://docty-backend.herokuapp.com/doctors`);
+        const data = await api.json();
+        setData(data);
+    }
+
     const [doctors, setDoctors] = useState([]);
     const getDoctors = () => {
-        data.map((data) => {
-            if ( data.category == params.category ) {
-                setDoctors(data.doctors);
-            }
-        })
+        setDoctors(data.filter((item) => item.specality == params.category));
     }
 
     useEffect(() => {
+        getData();
         getDoctors();
-    },[])
+    },[data])
+
+    console.log(data);
+    console.log(doctors);
 
     return (
         <div>
@@ -39,7 +46,7 @@ const Category = () => {
                             >
                                 <SimpleCard
                                     item={doctor.name}
-                                    image={doctor.image}
+                                    image={doctor.image.name}
                                 />
                             </Link>
                         )

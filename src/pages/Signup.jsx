@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // import components
@@ -7,6 +8,8 @@ import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
 
 const Signup = () => {
+
+    const url = 'https://docty-backend.herokuapp.com/users';
 
     let navigate = useNavigate();
 
@@ -86,7 +89,30 @@ const Signup = () => {
     // function to prevent the page to refresh when the registration for button is submitted
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/categories');
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: values.email,
+                email: values.email,
+                password: values.create_password
+            })
+        });
+
+        /*
+        Axios.post(url, {
+            username: values.email,
+            email: values.email,
+            password: values.create_password
+        })
+        .then((res) => {
+            console.log(res.config.data);
+        })
+        */
     }
 
     // array with the data about the inputs needed in the registration form

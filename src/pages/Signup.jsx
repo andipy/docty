@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import { auth } from "../services/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 // import components
 import Input from '../components/Input';
@@ -86,33 +88,20 @@ const Signup = () => {
         }
     },[valuesValidity])
 
-    // function to prevent the page to refresh when the registration for button is submitted
+    // function register a new user with firebase email and pwd provider, and redirect to
     const handleSubmit = (e) => {
-        e.preventDefault();
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: values.email,
-                email: values.email,
-                password: values.create_password
-            })
+        e.preventDefault();        
+        createUserWithEmailAndPassword(auth, values.email, values.create_password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log(user)
+            navigate("/login");
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
         });
-
-        /*
-        Axios.post(url, {
-            username: values.email,
-            email: values.email,
-            password: values.create_password
-        })
-        .then((res) => {
-            console.log(res.config.data);
-        })
-        */
     }
 
     // array with the data about the inputs needed in the registration form

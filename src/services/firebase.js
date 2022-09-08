@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getAuth } from "firebase/auth";
+import { getFirestore, Timestamp, FieldValue } from 'firebase/firestore';
 
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
@@ -14,10 +14,11 @@ const firebaseConfig = {
   appId: "1:919142266520:web:0ede0705311eb4c02182ed"
 };
 
+
 // Initialize Firebase, auth
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const database = getDatabase();
+const db = getFirestore(app);
 
 async function loginWithGoogle() {
     try {
@@ -36,4 +37,4 @@ async function loginWithGoogle() {
     }
 }
 
-export { loginWithGoogle, auth, database };
+export { loginWithGoogle, auth, db };

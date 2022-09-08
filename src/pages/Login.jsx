@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
+import { auth, db } from "../services/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 // import components
 import Input from '../components/Input';
 import Button from "../components/Button";
@@ -65,7 +68,15 @@ const Login = () => {
     // function to prevent the page to refresh when the registration for button is submitted
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/categories');
+        signInWithEmailAndPassword(auth, values.email, values.password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });        
     }
 
     // array with the data about the inputs needed in the registration form

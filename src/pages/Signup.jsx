@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { auth } from "../services/firebase";
+import { auth, db } from "../services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 // import components
@@ -10,8 +10,6 @@ import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
 
 const Signup = () => {
-
-    const url = 'https://docty-backend.herokuapp.com/users';
 
     let navigate = useNavigate();
 
@@ -141,6 +139,7 @@ const Signup = () => {
         required: true
     }
 
+    // object with the data about the go-to-login button
     const buttonGoToLogin = {
         label: 'Go to login',
         style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
@@ -175,7 +174,7 @@ const Signup = () => {
             <h4 className="text-xl font-bold">Already have an account?</h4>
             <Button
                 button={buttonGoToLogin}
-                onClickFunction={()=>{navigate("/login")}}
+                onClickFunction={()=>{navigate("/signup")}}
             />
         </div>
     )

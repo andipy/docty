@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { auth, db } from "../services/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 // import components
 import Input from '../components/Input';
@@ -102,6 +102,16 @@ const Signup = () => {
         });
     }
 
+    const handleSignOut = (e) => {
+        //e.preventDefault();  
+        signOut(auth)
+        .then(() => {
+        // Sign-out successful.
+        }).catch((error) => {
+        // An error happened.
+        });
+    }
+
     // array with the data about the inputs needed in the registration form
     const inputs = [
         {
@@ -146,6 +156,13 @@ const Signup = () => {
         disabled: false
     }
 
+    // object with the data about the logout button
+    const buttonLogout = {
+        label: 'Logout',
+        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
+        disabled: false
+    }
+
     return (
         <div className="px-10 mx-0 pt-20 pb-10">
             <h1 className="text-3xl font-bold mb-2">Hello,</h1>
@@ -174,7 +191,12 @@ const Signup = () => {
             <h4 className="text-xl font-bold">Already have an account?</h4>
             <Button
                 button={buttonGoToLogin}
-                onClickFunction={()=>{navigate("/signup")}}
+                onClickFunction={()=>{navigate("/login")}}
+            />
+            <h4 className="text-xl font-bold">Logout</h4>
+            <Button
+                button={buttonLogout}
+                onClickFunction={handleSignOut}
             />
         </div>
     )

@@ -76,7 +76,7 @@ const Login = () => {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-        });        
+        });
     }
 
     // array with the data about the inputs needed in the registration form

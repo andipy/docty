@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, Timestamp, FieldValue } from 'firebase/firestore';
-
+import { getFirestore, collection, doc, setDoc, getDoc, Timestamp, FieldValue } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 // Your web app's Firebase configuration
@@ -50,5 +49,6 @@ onAuthStateChanged(auth, (user) => {
     console.log('user is signed out');
   }
 });
+
 
 export { loginWithGoogle, auth, db };

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, doc, setDoc, getDoc, Timestamp, FieldValue } from 'firebase/firestore';
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs, Timestamp, FieldValue } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 // Your web app's Firebase configuration
@@ -51,11 +51,16 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // code that is bugging
-const querySnapshot = await getDocs(collection(db, "health_categories"));
-querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
-});
+async function getData(){
+  const querySnapshot = await getDocs(collection(db, "health_categories"));
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+  });
+}
+getData();
+
+
 
 
 export { loginWithGoogle, auth, db };

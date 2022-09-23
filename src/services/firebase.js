@@ -50,17 +50,4 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// code that is bugging
-async function getData(){
-  const querySnapshot = await getDocs(collection(db, "health_categories"));
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
-}
-getData();
-
-
-
-
 export { loginWithGoogle, auth, db };

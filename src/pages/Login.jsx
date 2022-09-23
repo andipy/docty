@@ -72,6 +72,7 @@ const Login = () => {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
+            navigate('/categories');
         })
         .catch((error) => {
             const errorCode = error.code;

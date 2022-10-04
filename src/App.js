@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { DataProvider } from "./context/Data";
 
 // import pages
 import Categories from './pages/Categories';
@@ -10,8 +9,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
 function App() {
-  return (
-    <DataProvider>
+  return (    
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate replace to='/signup' />} />
@@ -22,7 +20,6 @@ function App() {
           <Route path='/:category/:id' element={<Videos />} />       
         </Routes>
       </BrowserRouter>
-    </DataProvider>
   );
 }
 

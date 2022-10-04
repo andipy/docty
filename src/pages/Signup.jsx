@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../services/firebase";
+import { useAuth } from '../context/AuthContext';
 
-import { auth, db } from "../services/firebase";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 // import components
 import Input from '../components/Input';
@@ -12,6 +13,8 @@ import Checkbox from "../components/Checkbox";
 const Signup = () => {
 
     let navigate = useNavigate();
+
+    const { currentUser } = useAuth();
 
     // state to store information about the validity of the inputs
     const [valuesValidity, setValuesValidity] = useState({
@@ -88,20 +91,21 @@ const Signup = () => {
 
     // function register a new user with firebase email and pwd provider, and redirect to
     const handleSubmit = (e) => {
-        e.preventDefault();        
+        e.preventDefault();
         createUserWithEmailAndPassword(auth, values.email, values.create_password)
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
-            navigate("/login");
+            console.log(user);
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
         });
+        
     }
 
+    /*
     const handleSignOut = (e) => {
         //e.preventDefault();  
         signOut(auth)
@@ -111,6 +115,7 @@ const Signup = () => {
         // An error happened.
         });
     }
+    */
 
     // array with the data about the inputs needed in the registration form
     const inputs = [
@@ -166,6 +171,9 @@ const Signup = () => {
     return (
         <div className="px-10 mx-0 pt-20 pb-10">
             <h1 className="text-3xl font-bold mb-2">Hello,</h1>
+            <div>
+                {currentUser ? JSON.stringify(currentUser.email) : 'no'}
+            </div>
             <p className="font-semibold mb-8">Create your account with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {
@@ -196,7 +204,7 @@ const Signup = () => {
             <h4 className="text-xl font-bold">Logout</h4>
             <Button
                 button={buttonLogout}
-                onClickFunction={handleSignOut}
+                // onClickFunction={handleSignOut}
             />
         </div>
     )

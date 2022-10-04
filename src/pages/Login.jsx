@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 
-import { auth, db } from "../services/firebase";
+import { auth } from "../services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 // import components
 import Input from '../components/Input';
 import Button from "../components/Button";
+
 
 const Login = () => {
 
@@ -70,9 +71,8 @@ const Login = () => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, values.email, values.password)
         .then((userCredential) => {
-            // Signed in 
+            // Signed in            
             const user = userCredential.user;
-            navigate('/categories');
         })
         .catch((error) => {
             const errorCode = error.code;

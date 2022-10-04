@@ -1,4 +1,3 @@
-import { hasPointerEvents } from "@testing-library/user-event/dist/utils";
 import React, { useState, createContext } from "react";
 
 export const DataContext = createContext();

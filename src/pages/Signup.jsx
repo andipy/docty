@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../services/firebase";
-import { useAuth } from '../context/AuthContext';
-
-
+import { AuthContext } from '../context/AuthContext';
 // import components
 import Input from '../components/Input';
 import Button from "../components/Button";
@@ -14,7 +12,7 @@ const Signup = () => {
 
     let navigate = useNavigate();
 
-    const { currentUser } = useAuth();
+    const [currentUser, setCurrentUser] = useContext(AuthContext);
 
     // state to store information about the validity of the inputs
     const [valuesValidity, setValuesValidity] = useState({
@@ -96,7 +94,7 @@ const Signup = () => {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user);
+            navigate('/categories');
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -104,18 +102,6 @@ const Signup = () => {
         });
         
     }
-
-    /*
-    const handleSignOut = (e) => {
-        //e.preventDefault();  
-        signOut(auth)
-        .then(() => {
-        // Sign-out successful.
-        }).catch((error) => {
-        // An error happened.
-        });
-    }
-    */
 
     // array with the data about the inputs needed in the registration form
     const inputs = [
@@ -161,18 +147,11 @@ const Signup = () => {
         disabled: false
     }
 
-    // object with the data about the logout button
-    const buttonLogout = {
-        label: 'Logout',
-        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
-        disabled: false
-    }
-
     return (
         <div className="px-10 mx-0 pt-20 pb-10">
             <h1 className="text-3xl font-bold mb-2">Hello,</h1>
             <div>
-                {currentUser ? JSON.stringify(currentUser.email) : 'no'}
+                {currentUser ? JSON.stringify(currentUser.uid) : 'no'}
             </div>
             <p className="font-semibold mb-8">Create your account with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
@@ -200,11 +179,6 @@ const Signup = () => {
             <Button
                 button={buttonGoToLogin}
                 onClickFunction={()=>{navigate("/login")}}
-            />
-            <h4 className="text-xl font-bold">Logout</h4>
-            <Button
-                button={buttonLogout}
-                // onClickFunction={handleSignOut}
             />
         </div>
     )

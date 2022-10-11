@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 import { auth } from "../services/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 // import components
 import Input from '../components/Input';
@@ -12,6 +13,8 @@ import Button from "../components/Button";
 const Login = () => {
 
     let navigate = useNavigate();
+
+    const [currentUser, setCurrentUser] = useContext(AuthContext);
 
     // state to store information about the validity of the inputs
     const [valuesValidity, setValuesValidity] = useState({
@@ -73,6 +76,7 @@ const Login = () => {
         .then((userCredential) => {
             // Signed in            
             const user = userCredential.user;
+            navigate('/categories');
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -110,6 +114,11 @@ const Login = () => {
     return (
         <div className="px-10 mx-0 pt-20 pb-10">
             <h1 className="text-3xl font-bold mb-2">Welcome back,</h1>
+
+            <div>
+                {currentUser ? JSON.stringify(currentUser.uid) : 'no'}
+            </div>
+
             <p className="font-semibold mb-8">Login with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {

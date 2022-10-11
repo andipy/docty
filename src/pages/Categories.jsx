@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 import { collection, getDocs} from 'firebase/firestore';
-import { db } from '../services/firebase';
+import { db, auth } from '../services/firebase';
+import { signOut } from "firebase/auth";
 
 // import components
+import Button from "../components/Button";
 import Nav from '../components/Nav';
 import SimpleCard from '../components/SimpleCard';
+import PrivateRoute from './PrivateRoute';
 
 const Categories = () => {
+
+    let navigate = useNavigate();
+
+    const [currentUser, setCurrentUser] = useContext(AuthContext);
 
     const [data, setData] = useState([]);
 
@@ -24,7 +32,27 @@ const Categories = () => {
     }    
     useEffect(()=>{
         getData();                
-    },[])
+    },[]);
+
+    const handleSignOut = (e) => {
+        e.preventDefault();  
+        signOut(auth)
+        .then(() => {
+            // Sign-out successful.
+            setCurrentUser(null);
+            navigate('/login');
+        }).catch((error) => {
+            // An error happened.
+            console.log('An error happened');
+        });
+    };
+
+    // object with the data about the logout button
+    const buttonLogout = {
+        label: 'Logout',
+        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
+        disabled: false
+    }
     
 
     return (
@@ -47,7 +75,14 @@ const Categories = () => {
                         )
                     })}
                 </div>
-            </div>
+
+                <h4 className="text-xl font-bold">Logout</h4>
+                <div>You are {currentUser.email}</div>
+                <Button
+                    button={buttonLogout}
+                    onClickFunction={handleSignOut}
+                />
+            </div>           
         </div>
     )
 }

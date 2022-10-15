@@ -111,14 +111,15 @@ const Login = () => {
         disabled: false
     }
 
+    useEffect(()=>{
+        if ( currentUser ) {
+            navigate('/categories');
+        }
+    },[currentUser]);
+
     return (
         <div className="px-10 mx-0 pt-20 pb-10">
             <h1 className="text-3xl font-bold mb-2">Welcome back,</h1>
-
-            <div>
-                {currentUser ? JSON.stringify(currentUser.uid) : 'no'}
-            </div>
-
             <p className="font-semibold mb-8">Login with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {

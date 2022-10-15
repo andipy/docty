@@ -10,6 +10,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from "./pages/PrivateRoute";
+import Post from "./pages/Post";
+import PostDetails from "./pages/PostDetails"
 
 function App() {
 
@@ -22,8 +24,11 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/categories' element={currentUser ? <Categories /> : <Login />} />
-          <Route path='/:category' element={currentUser ? <Category /> : <Login />} />
-          <Route path='/:category/:id' element={currentUser ? <Videos /> : <Login />} />       
+          {/* <Route path='/:category' element={currentUser ? <Category /> : <Login />} /> */}
+          {/* <Route path='/:category/:id' element={currentUser ? <Videos /> : <Login />} /> */}
+
+          <Route path='/post' element={currentUser ? <Post /> : <Login />} />
+          {<Route path='/:post_id' element={currentUser ? <PostDetails /> : <Login />} />}
         </Routes>
       </BrowserRouter>
   );

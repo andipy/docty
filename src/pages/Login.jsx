@@ -141,7 +141,7 @@ const Login = () => {
             <h4 className="text-xl font-bold">Don't have an account yet?</h4>
             <Button
                 button={buttonGoToSignup}
-                onClickFunction={()=>{navigate("/signup")}}            
+                onClickFunction={()=>{navigate("/role")}}            
             />
         </Container>
     )

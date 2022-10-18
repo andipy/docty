@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Container from "../components/Container";
+import Button from "../components/Button";
 
 const Role = () => {
 
@@ -23,11 +24,17 @@ const Role = () => {
             isMounted.current = true;
         }
     },[role]);
-    
+
+    // object with the data about the go-to-login button
+    const buttonGoToLogin = {
+        label: 'Go to login',
+        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
+        disabled: false
+    }    
 
     return (
         <Container>
-            <h1 className="text-3xl font-bold mb-6">I am a</h1>
+            <h1 className="text-3xl font-bold mb-6">Signup as a:</h1>
             <div className="flex flex-col">
                 <button
                     onClick={setPatient}
@@ -41,6 +48,14 @@ const Role = () => {
                 >
                     Doctor
                 </button>
+            </div>
+
+            <div className="mt-16">
+                <h4 className="text-xl font-bold">Already have an account?</h4>
+                <Button
+                    button={buttonGoToLogin}
+                    onClickFunction={()=>{navigate("/login")}}
+                />
             </div>
         </Container>
     )

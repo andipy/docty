@@ -8,10 +8,7 @@ import Category from './pages/Category';
 import Videos from "./pages/Videos";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Unauthorized from './pages/Unauthorized';
-import PrivateRoute from "./pages/PrivateRoute";
-import Post from "./pages/Post";
-import PostDetails from "./pages/PostDetails"
+import Role from "./pages/Role";
 
 function App() {
 
@@ -20,15 +17,13 @@ function App() {
   return (    
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Navigate replace to='/signup' />} />
+          <Route path='/' element={<Navigate to='/role' replace />} />
+          <Route path="/role" element={<Role />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/categories' element={currentUser ? <Categories /> : <Login />} />
-          {/* <Route path='/:category' element={currentUser ? <Category /> : <Login />} /> */}
-          {/* <Route path='/:category/:id' element={currentUser ? <Videos /> : <Login />} /> */}
-
-          <Route path='/post' element={currentUser ? <Post /> : <Login />} />
-          {<Route path='/:post_id' element={currentUser ? <PostDetails /> : <Login />} />}
+          <Route path='/categories/:category' element={currentUser ? <Category /> : <Login />} />
+          <Route path='/categories/:category/:doctor_id' element={currentUser ? <Videos /> : <Login />} />
         </Routes>
       </BrowserRouter>
   );

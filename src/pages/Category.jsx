@@ -1,58 +1,41 @@
 import React, { useEffect, useState, useContext } from "react";
 // import { DataContext } from '../context/Data';
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 // import components
 import Nav from '../components/Nav';
 import SimpleCard from '../components/SimpleCard';
+import Container from "../components/Container";
 
 const Category = () => {
 
-    // const [data, setData] = useContext(DataContext);
-
     const params = useParams();
-
-    const [data, setData] = useState([]);
-    const getData = async (name) => {
-        const api = await fetch(`https://docty-backend.herokuapp.com/doctors`);
-        const data = await api.json();
-        setData(data);
-    }
+    const navigate = useNavigate();
+    const { state } = useLocation();
 
     const [doctors, setDoctors] = useState([]);
-    const getDoctors = () => {
-        setDoctors(data.filter((item) => item.specality == params.category));
-    }
 
     useEffect(() => {
-        getData();
-        getDoctors();
-    },[data])
-
-    console.log(data);
-    console.log(doctors);
+        console.log(state);
+    },[])
 
     return (
-        <div>
+        <div>        
             <Nav />
-            <div className="px-10 mx-0 pt-20">
+            <Container>
                 <h2 className="text-3xl font-bold">{params.category}</h2>
                 <div className="pb-12">
                     {doctors.map((doctor) => {
                         return (
-                            <Link
-                                to={`/${params.category}/${doctor.id}`}
-                                key={doctor.id}
-                            >
-                                <SimpleCard
-                                    item={doctor.name}
-                                    image={doctor.image.name}
-                                />
-                            </Link>
+                            <SimpleCard
+                                item={doctor.name}
+                                image={doctor.image.name}
+                                onClickFunction={() => navigate(`/${params.category}/${doctor.id}`)}
+                            />
                         )
                     })}
-                </div>
-            </div>
+                </div>            
+            </Container>
         </div>
     )
 }

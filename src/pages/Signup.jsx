@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { useLocation, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { AuthContext } from '../context/AuthContext';
 // import components
 import Input from '../components/Input';
 import Button from "../components/Button";
 import Checkbox from "../components/Checkbox";
+import Container from "../components/Container";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../services/firebase";
 
 const Signup = () => {
 
-    let navigate = useNavigate();
+    const { state } = useLocation();
+
+    const navigate = useNavigate();
 
     const [currentUser, setCurrentUser] = useContext(AuthContext);
 
@@ -94,6 +99,17 @@ const Signup = () => {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
+            const collectionRef = collection(db, "users");
+            addDoc(collectionRef, {
+                avatar: user.photoURL,
+                created_at: serverTimestamp(),
+                deactivated_at: null,
+                email: user.email,
+                role: state,
+                updated_at: null,
+                user_id: user.uid,
+                username: user.displayName
+            });
             navigate('/categories');
         })
         .catch((error) => {
@@ -154,9 +170,9 @@ const Signup = () => {
     },[currentUser]);
 
     return (
-        <div className="px-10 mx-0 pt-20 pb-10">
-            <h1 className="text-3xl font-bold mb-2">Hello,</h1>
-            <p className="font-semibold mb-8">Create your account with email and password!</p>
+        <Container>
+            <h1 className="font-semibold mb-2">Hello,</h1>
+            <p className="font-bold text-xl mb-8">Create your account {"as a " + state?.toLowerCase()} with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {
                     return (                    
@@ -183,7 +199,7 @@ const Signup = () => {
                 button={buttonGoToLogin}
                 onClickFunction={()=>{navigate("/login")}}
             />
-        </div>
+        </Container>
     )
 }
 

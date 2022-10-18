@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 // import components
 import Input from '../components/Input';
 import Button from "../components/Button";
+import Container from "../components/Container";
 
 
 const Login = () => {
@@ -118,7 +119,7 @@ const Login = () => {
     },[currentUser]);
 
     return (
-        <div className="px-10 mx-0 pt-20 pb-10">
+        <Container>
             <h1 className="text-3xl font-bold mb-2">Welcome back,</h1>
             <p className="font-semibold mb-8">Login with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
@@ -142,7 +143,7 @@ const Login = () => {
                 button={buttonGoToSignup}
                 onClickFunction={()=>{navigate("/signup")}}            
             />
-        </div>
+        </Container>
     )
 }
 

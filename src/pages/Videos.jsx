@@ -6,6 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import Nav from '../components/Nav';
 import VideoCard from '../components/VideoCard';
 import DoctorHeader from "../components/DoctorHeader";
+import Container from "../components/Container";
 
 const Videos = () => {
 
@@ -42,7 +43,7 @@ const Videos = () => {
     },[])
 
     return (
-        <div>
+        <Container>
             <Nav />
             <DoctorHeader
                 doctorName={doctorName}
@@ -64,7 +65,7 @@ const Videos = () => {
                     )
                 })}                
             </div>
-        </div>
+        </Container>
     )
 }
 

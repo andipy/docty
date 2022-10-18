@@ -12,21 +12,10 @@ import NotificationsEnabled from '../assets/icons/notificationsEnabled.svg';
 const Nav = () => {
 
     const navigate = useNavigate();
-    const params = useParams();
-    const [navTransparent, setNavTransparent] = useState(false);
-
-    const navStyle = () => {
-        if ( params.id ) {
-            setNavTransparent(true);
-        }
-    }
-
-    useEffect(() => {
-        navStyle();
-    },[]);    
+    const params = useParams();   
 
     return (
-        <nav className={`px-10 mx-0 py-4 flex items-center justify-between fixed w-full z-10 ${navTransparent ? "" : "bg-white"}`}>
+        <nav className={`px-10 mx-0 py-4 flex items-center justify-between fixed w-full z-10 ${params.id ? "" : "bg-white"}`}>
             <div onClick={() => navigate(-1)}>
                 <NavIcon src={BackArrow} alt={'< BACK'} />
             </div>

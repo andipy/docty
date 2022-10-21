@@ -5,11 +5,11 @@ import { AuthContext } from './context/AuthContext';
 // import pages
 import Categories from './pages/Categories';
 import Category from './pages/Category';
-import Videos from "./pages/Videos";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Role from "./pages/Role";
 import Doctor from "./pages/Doctor";
+import Profile from "./pages/Profile";
 
 function App() {
 
@@ -25,6 +25,7 @@ function App() {
           <Route path='/categories' element={currentUser ? <Categories /> : <Login />} />
           <Route path='/categories/:category_id' element={currentUser ? <Category /> : <Login />} />
           <Route path='/categories/:category/:doctor_id' element={currentUser ? <Doctor /> : <Login />} />
+          <Route path='/profile' element={currentUser ? <Profile /> : <Login />} />
         </Routes>
       </BrowserRouter>
   );

@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
 
 import { collection, getDocs } from 'firebase/firestore';
-import { db, auth } from '../services/firebase';
-import { signOut } from "firebase/auth";
+import { db } from '../services/firebase';
 
 // import components
-import Button from "../components/Button";
 import Nav from '../components/Nav';
 import SimpleCard from '../components/SimpleCard';
 import Container from "../components/Container";
@@ -15,8 +12,6 @@ import Container from "../components/Container";
 const Categories = () => {
 
     const navigate = useNavigate();
-
-    const [currentUser, setCurrentUser] = useContext(AuthContext);
 
     const [categories, setCategories] = useState([]);
 
@@ -34,28 +29,7 @@ const Categories = () => {
     }    
     useEffect(()=>{
         getCategories();
-    },[]);
-
-    const handleSignOut = (e) => {
-        e.preventDefault();  
-        signOut(auth)
-        .then(() => {
-            // Sign-out successful.
-            setCurrentUser(null);
-            navigate('/login');
-        }).catch((error) => {
-            // An error happened.
-            console.log('An error happened');
-        });
-    };
-
-    // object with the data about the logout button
-    const buttonLogout = {
-        label: 'Logout',
-        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
-        disabled: false
-    }
-    
+    },[]);    
 
     return (
         <div>
@@ -73,14 +47,6 @@ const Categories = () => {
                             />
                         )
                     })}
-                </div>
-
-                <div className="mt-8 mb-8">
-                    <div>You are {currentUser.email}</div>
-                    <Button
-                        button={buttonLogout}
-                        onClickFunction={handleSignOut}
-                    />
                 </div>
             </Container>
         </div>        

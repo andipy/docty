@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-// import components
-import NavIcon from './NavIcon';
+import Container from "./Container";
 
 // import graphic assets
 import BackArrow from '../assets/icons/backArrow.svg';
@@ -11,17 +10,20 @@ import NotificationsEnabled from '../assets/icons/notificationsEnabled.svg';
 
 const Nav = () => {
 
-    const navigate = useNavigate();
-    const params = useParams();   
+    const params = useParams();
 
-    return (
-        <nav className={`px-10 mx-0 py-4 flex items-center justify-between fixed w-full z-10 ${params.id ? "" : "bg-white"}`}>
-            <div onClick={() => navigate(-1)}>
-                <NavIcon src={BackArrow} alt={'< BACK'} />
-            </div>
-            <div className="flex items-center gap-2">
-                <NavIcon src={NotificationsEnabled} alt={'SMS'} />
-                <NavIcon src={UserProfile} alt={'PROFILE'} />
+    const navigate = useNavigate(); 
+
+    return ( 
+        <nav>
+            <div className={`flex items-center justify-between fixed w-full px-8 py-4 mx-0 z-10 ${params.doctor_id ? "" : "bg-white"}`}>
+                <div onClick={() => navigate(-1)}>
+                    <img src={BackArrow} alt={'< BACK'} className="py-2 px-2 rounded-full bg-teal-400"/>
+                </div>
+                <div className="flex items-center gap-2">
+                    <img src={NotificationsEnabled} alt={'SMS'} className="py-2 px-2 rounded-full bg-teal-400"/>
+                    <img src={UserProfile} alt={'PROFILE'} className="py-2 px-2 rounded-full bg-teal-400" onClick={() => navigate("/profile")}/>
+                </div> 
             </div>
         </nav>
     )

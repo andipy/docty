@@ -28,7 +28,7 @@ const Category = () => {
     }
 
     useEffect(() => {
-        console.log(state);
+        console.log(state, "state");
         getDoctors();
     },[])
 

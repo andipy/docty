@@ -9,6 +9,7 @@ import Videos from "./pages/Videos";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Role from "./pages/Role";
+import Doctor from "./pages/Doctor";
 
 function App() {
 
@@ -22,8 +23,8 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/categories' element={currentUser ? <Categories /> : <Login />} />
-          <Route path='/categories/:category' element={currentUser ? <Category /> : <Login />} />
-          <Route path='/categories/:category/:doctor_id' element={currentUser ? <Videos /> : <Login />} />
+          <Route path='/categories/:category_id' element={currentUser ? <Category /> : <Login />} />
+          <Route path='/categories/:category/:doctor_id' element={currentUser ? <Doctor /> : <Login />} />
         </Routes>
       </BrowserRouter>
   );

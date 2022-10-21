@@ -19,7 +19,7 @@ const Nav = () => {
             <div onClick={() => navigate(-1)}>
                 <NavIcon src={BackArrow} alt={'< BACK'} />
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
                 <NavIcon src={NotificationsEnabled} alt={'SMS'} />
                 <NavIcon src={UserProfile} alt={'PROFILE'} />
             </div>

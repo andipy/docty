@@ -42,12 +42,13 @@ const Doctor = () => {
         })
         .catch((error) => {
             // Handle any errors
-        });
-        
+        });        
     }
     useEffect(()=> {
         getImage()
     },[]);
+
+    console.log(state.followers);
 
     return (
         <div>

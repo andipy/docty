@@ -169,6 +169,8 @@ const Signup = () => {
         }
     },[currentUser]);
 
+    console.log(state);
+
     return (
         <Container>
             <h1 className="font-semibold mb-2">Hello,</h1>

@@ -19,7 +19,13 @@ const Role = () => {
     const isMounted = useRef(false);
     useEffect(()=>{
         if ( isMounted.current ) {
-            navigate("/signup", { state: role });
+            if ( role == "PATIENT" ) {
+                navigate("/signup", { state: role });
+            }
+            if ( role == "DOCTOR" ) {
+                navigate("/signup-doctor", { state: role });
+            }
+            
         } else {
             isMounted.current = true;
         }

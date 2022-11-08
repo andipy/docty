@@ -11,7 +11,7 @@ import Container from "../components/Container";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../services/firebase";
 
-const Signup = () => {
+const SignupDoctor = () => {
 
     const { state } = useLocation();
 
@@ -22,6 +22,8 @@ const Signup = () => {
     // state to store information about the validity of the inputs
     const [valuesValidity, setValuesValidity] = useState({
         email: false,
+        first_name: false,
+        last_name: false,
         create_password: false,
         confirm_password: false,
         checkbox: false
@@ -30,6 +32,8 @@ const Signup = () => {
     // state to store the data input by the user in the registration inputs
     const [values, setValues] = useState({
         email: '',
+        first_name: '',
+        last_name: '',
         create_password: '',
         confirm_password: '',
         checkbox: ''
@@ -46,10 +50,28 @@ const Signup = () => {
             } else {
                 setValuesValidity({...valuesValidity, [e.target.name]: false});
             };
-        }       
+        }
+
+        if (e.target.name == 'first_name') {
+            var re = new RegExp(inputs[1].pattern);
+            if ( re.test(e.target.value) ) {
+                setValuesValidity({...valuesValidity, [e.target.name]: true});
+            } else {
+                setValuesValidity({...valuesValidity, [e.target.name]: false});
+            };
+        }
+
+        if (e.target.name == 'last_name') {
+            var re = new RegExp(inputs[2].pattern);
+            if ( re.test(e.target.value) ) {
+                setValuesValidity({...valuesValidity, [e.target.name]: true});
+            } else {
+                setValuesValidity({...valuesValidity, [e.target.name]: false});
+            };
+        }     
 
         if (e.target.name == 'create_password') {
-            var re = new RegExp(inputs[1].pattern);
+            var re = new RegExp(inputs[3].pattern);
             if ( re.test(e.target.value) ) {
                 setValuesValidity({...valuesValidity, [e.target.name]: true});
             } else {
@@ -77,7 +99,7 @@ const Signup = () => {
     // state and useEffect to handle button status (style, and "enabled vs diasabled"), based on the validity of the inputs and checkbox
     const [buttonSignup, setButtonSignup] = useState({});    
     useEffect(() => {
-        if ( valuesValidity.email == true && valuesValidity.create_password == true && valuesValidity.confirm_password == true && valuesValidity.checkbox == true ) {
+        if ( valuesValidity.email == true && valuesValidity.first_name == true && valuesValidity.last_name == true && valuesValidity.create_password == true && valuesValidity.confirm_password == true && valuesValidity.checkbox == true ) {
             setButtonSignup({
                 label: 'Create account',
                 style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
@@ -106,14 +128,14 @@ const Signup = () => {
                 created_at: serverTimestamp(),
                 deactivated_at: null,
                 email: user.email,
-                first_name: null,
-                last_name: null,
+                first_name: values.first_name,
+                last_name: values.last_name,
                 role: state,
                 updated_at: null,
                 uid: user.uid,
                 username: user.displayName
             });
-            navigate('/categories');
+            navigate('/profile');
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -131,26 +153,39 @@ const Signup = () => {
             name: 'email',
             placeholder: 'Type your email here',
             required: true,
-            pattern: '^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5})$',
-            needed_for_patient: true
+            pattern: '^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\.([a-zA-Z]{2,5})$'
         },{
             id: 2,
+            label: 'Your first name',
+            type: 'text',
+            name: 'first_name',
+            placeholder: 'Type your first name here',
+            required: true,
+            pattern: '^.{3,}$'
+        },{
+            id: 3,
+            label: 'Your last name',
+            type: 'text',
+            name: 'last_name',
+            placeholder: 'Type your last name here',
+            required: true,
+            pattern: '^.{3,}$'
+        },{
+            id: 4,
             label: 'Create a password',
             type: 'password',
             name: 'create_password',
             placeholder: 'Type a new password',
             required: true,
-            pattern:'^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$',
-            needed_for_patient: true
+            pattern:'^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$'
         },{
-            id: 3,
+            id: 5,
             label: 'Confirm your password',
             type: 'password',
             name: 'confirm_password',
             placeholder: 'Type your password again',
             required: true,
-            pattern: values.password,
-            needed_for_patient: true
+            pattern: values.password
         }
     ]
 
@@ -211,4 +246,4 @@ const Signup = () => {
     )
 }
 
-export default Signup;
+export default SignupDoctor;

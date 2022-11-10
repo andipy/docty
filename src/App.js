@@ -18,32 +18,32 @@ function App() {
 
   const [currentUser, setCurrentUser] = useContext(AuthContext);
 
-  const [docCompleted, setDocCompleted] = useState(false);
-  const [user, setUser] = useState({});  
-  const getUser = async() => {
-    const q = query(collection(db, "users"), where("uid", "==", currentUser.uid));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          setUser(doc.data());
-      })
-  });
-  return unsubscribe;
-  }
-  useEffect(()=>{
-    getUser();
-  },[currentUser]);
-  useEffect(()=>{
-    if ( user.role == "DOCTOR" ) {
-      console.log("sono un doc");
-      if ( user.first_name == null || user.last_name == null ) {
-        setDocCompleted(false);
-      } else {
-        setDocCompleted(true);
-      }
-    }
-  },[user])
+  // const [docCompleted, setDocCompleted] = useState(false);
+  // const [user, setUser] = useState({});  
+  // const getUser = async() => {
+  //   const q = query(collection(db, "users"), where("uid", "==", currentUser.uid));
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //         setUser(doc.data());
+  //     })
+  // });
+  // return unsubscribe;
+  // }
+  // useEffect(()=>{
+  //   getUser();
+  // },[currentUser]);
+  // useEffect(()=>{
+  //   if ( user.role == "DOCTOR" ) {
+  //     console.log("sono un doc");
+  //     if ( user.first_name == null || user.last_name == null ) {
+  //       setDocCompleted(false);
+  //     } else {
+  //       setDocCompleted(true);
+  //     }
+  //   }
+  // },[user])
 
-  console.log(docCompleted);
+  // console.log(docCompleted);
 
   return (    
       <BrowserRouter>
@@ -53,7 +53,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/signup-doctor' element={<SignupDoctor />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/categories' element={docCompleted ? <Categories /> : <Profile />} />
+          <Route path='/categories' element={currentUser ? <Categories /> : <Login />} />
           <Route path='/categories/:category_id' element={currentUser ? <Category /> : <Login />} />
           <Route path='/categories/:category/:doctor_id' element={currentUser ? <Doctor /> : <Login />} />
           <Route path='/profile' element={currentUser ? <Profile /> : <Login />} />

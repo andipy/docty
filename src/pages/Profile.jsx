@@ -33,6 +33,25 @@ const Profile = () => {
         getUser();
     },[])
 
+    const [healthCategories, setHealthCategories] = useState([]);
+    const getHealthCategories = async () => {
+        const collectionRef = collection(db, "health_categories");
+        const unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                setHealthCategories((prev) => [...prev, doc.data().health_category]);
+            })
+        })
+        return unsubscribe;
+    }
+    useEffect(() => {
+        getHealthCategories();
+    },[]);
+
+    const [yourCategory, setYourCategory] = useState(null);
+    const selectedCategory = (e) => {
+        setYourCategory(e.target.options[e.target.options.selectedIndex].value);
+    }
+
     const [values, setValues] = useState({
         first_name: null,
         last_name: null
@@ -52,6 +71,7 @@ const Profile = () => {
                 await updateDoc(docRef, {
                     first_name: values.first_name,
                     last_name: values.last_name,
+                    health_category: yourCategory,
                     updated_at: serverTimestamp()
                 }).then(setValues({
                     first_name: null,
@@ -128,6 +148,25 @@ const Profile = () => {
                             />
                         )
                     })}
+
+                    {user.role == "DOCTOR" &&
+                        <div>
+                            <label htmlFor="health-categories">Your main health category</label>
+                            <select className="bg-teal-50 w-full py-3 px-4 rounded-lg font-regular" id="health_category" name="health-categories" onChange={selectedCategory} required>
+                                <option disabled selected> Select your category</option>
+                                {healthCategories.map((category) => {
+                                    return (
+                                        <option
+                                            key={category}
+                                            value={category}
+                                        >
+                                            {category}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                    }
 
                     <Button button={buttonConfirm} />
                 </form>

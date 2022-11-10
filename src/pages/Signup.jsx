@@ -102,11 +102,12 @@ const Signup = () => {
             const collectionRef = collection(db, "users");
             addDoc(collectionRef, {
                 avatar: user.photoURL,
-                cover_image: null,
+                cover_image: user.photoURL,
                 created_at: serverTimestamp(),
                 deactivated_at: null,
                 email: user.email,
                 first_name: null,
+                followed: [],
                 last_name: null,
                 role: state,
                 updated_at: null,

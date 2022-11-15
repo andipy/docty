@@ -13,7 +13,7 @@ import { collection, doc, getDocs, query, serverTimestamp, updateDoc, where, onS
 import { db } from "../services/firebase";
 import { useEffect } from "react";
 
-const Profile = () => {
+const UpdateName = () => {
 
     const navigate = useNavigate();
 
@@ -53,36 +53,13 @@ const Profile = () => {
                     first_name: values.first_name,
                     last_name: values.last_name,
                     updated_at: serverTimestamp()
-                }).then(setValues({
-                    first_name: null,
-                    last_name: null
-                }))
+                }).then(() => {navigate("/profile")})
             })            
         }
     }
 
-    const handleSignOut = (e) => {
-        e.preventDefault();  
-        signOut(auth)
-        .then(() => {
-            // Sign-out successful.
-            setCurrentUser(null);
-            navigate('/login');
-        }).catch((error) => {
-            // An error happened.
-            console.log('An error happened');
-        });
-    };
-
-    // object with the data about the logout button
-    const buttonLogout = {
-        label: 'Logout',
-        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
-        disabled: false
-    }
-
-    const buttonEdit = {
-        label: 'Edit',
+    const buttonConfirm = {
+        label: 'Confirm',
         style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
         disabled: false
     }
@@ -114,40 +91,26 @@ const Profile = () => {
         <Nav />
         <Container>
             <div className="mt-8 mb-8">
-                <div className="mb-10">
-                    <div>Your email is {user.email}</div>
-                </div>
-
-                <div className="mb-10">
-                    <div>You are {user.first_name} {user.last_name}</div>
-                    <Button
-                        button={buttonEdit}
-                        onClickFunction={() => {navigate("/update-name-lastname")}}
-                    />
-                </div>
-
-                <div className="mb-10">
-                    <div>You are a {user.role}</div>
-                </div>
-
-                {user.role == "DOCTOR" &&
-                    <div className="mb-10">
-                        <div>Your health category is {user.health_category}</div>
-                        <Button
-                            button={buttonEdit}
-                            onClickFunction={() => {navigate("/update-health-category")}}
-                        />
-                    </div>
-                }
-                
-                <Button
-                    button={buttonLogout}
-                    onClickFunction={handleSignOut}
-                />
+                <form className="mb-20" onSubmit={updateName}>
+                    {inputs.map((input) => {
+                        return (                    
+                            <Input
+                                key={input.id}
+                                placeholder={input.placeholder}
+                                type={input.type}
+                                label={input.label}
+                                name={input.name}
+                                value={values[input.name]}
+                                onChange={handleInput}
+                            />
+                        )
+                    })}
+                    <Button button={buttonConfirm} />
+                </form>
             </div>
         </Container>
         </>
     )
 }
 
-export default Profile;
+export default UpdateName;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 // import { DataContext } from '../context/Data';
 import { useNavigate, useLocation } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../services/firebase";
 
 // import components
@@ -17,14 +17,14 @@ const Category = () => {
     const [doctors, setDoctors] = useState([]);
 
     const getDoctors = async() => {
-        let array = [];
-        const subCollectionRef = collection(db, "health_categories", state.category_id, "doctors");
-        const querySnapshot = await getDocs(subCollectionRef);
+        const collectionRef = collection(db, "users");
+        const q = query(collectionRef, where("health_category", "==", state.health_category))
+        const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            array.push(doc.data());
-            console.log(doc.data())
+            console.log(doc.id)
+            setDoctors((prev) => [...prev, {...doc.data(), doc_id: doc.id}]);
         });
-        setDoctors(array);
+        
     }
 
     useEffect(() => {
@@ -42,7 +42,8 @@ const Category = () => {
                         return (
                             <SimpleCard
                                 key={doctor.uid}
-                                item={doctor.first_name}
+                                first_name={doctor.first_name}
+                                last_name={doctor.last_name}
                                 image={doctor.avatar}
                                 onClickFunction={() => navigate(`/categories/${state.category_id}/${doctor.uid}`, { state: doctor })}
                             />

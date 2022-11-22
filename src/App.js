@@ -16,53 +16,103 @@ import UpdateName from "./pages/UpdateName";
 
 
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { db } from "./services/firebase"
+import { app, db } from "./services/firebase"
 
 function App() {
 
   const [currentUser, setCurrentUser] = useContext(AuthContext);
 
-  // const [docCompleted, setDocCompleted] = useState(false);
-  // const [user, setUser] = useState({});  
-  // const getUser = async() => {
-  //   const q = query(collection(db, "users"), where("uid", "==", currentUser.uid));
-  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //         setUser(doc.data());
-  //     })
-  // });
-  // return unsubscribe;
-  // }
-  // useEffect(()=>{
-  //   getUser();
-  // },[currentUser]);
-  // useEffect(()=>{
-  //   if ( user.role == "DOCTOR" ) {
-  //     console.log("sono un doc");
-  //     if ( user.first_name == null || user.last_name == null ) {
-  //       setDocCompleted(false);
-  //     } else {
-  //       setDocCompleted(true);
-  //     }
-  //   }
-  // },[user])
+  const [user, setUser] = useState({});  
+  const getUser = async() => {
+    const q = query(collection(db, "users"), where("uid", "==", currentUser.uid));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          setUser(doc.data());
+      })
+    });
+    return unsubscribe;
+  }
+  useEffect(()=>{
+    getUser();
+  },[currentUser]);
 
-  // console.log(docCompleted);
+  const defineRoutePermission = (route, permissioned) => {
+    if ( currentUser ) {
+      if ( user.role == "PATIENT" ) {
+        return route
+      }
+      if ( user.role == "DOCTOR" ) {
+        if ( user.health_category ) {
+          return route
+        }
+        if ( !user.health_category ) {
+          return <UpdateHealthCategory />
+        }
+      }
+    } else if ( !currentUser ) {
+      if ( !permissioned ) {
+        return route
+      } else {
+        return <Login />
+      }
+    }
+  }
+
+  const routes = [
+    {
+      route: "/role",
+      component: <Role />,
+      protected: false
+    },{
+      route: "/signup",
+      component: <Signup />,
+      protected: false
+    },{
+      route: "/signup-doctor",
+      component: <SignupDoctor />,
+      protected: false
+    },{
+      route: "/login",
+      component: <Login />,
+      protected: false
+    },{
+      route: "/categories",
+      component: <Categories />,
+      protected: true
+    },{
+      route: "/categories/:category_id",
+      component: <Category />,
+      protected: true
+    },{
+      route: "/categories/:category/:doctor_id",
+      component: <Doctor />,
+      protected: true
+    },{
+      route: "/profile",
+      component: <Profile />,
+      protected: true
+    },{
+      route: "/update-health-category",
+      component: <UpdateHealthCategory />,
+      protected: true
+    },{
+      route: "/update-name-lastname",
+      component: <UpdateName />,
+      protected: true
+    }
+  ]
 
   return (    
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate to='/role' replace />} />
-          <Route path="/role" element={<Role />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/signup-doctor' element={<SignupDoctor />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/categories' element={currentUser ? <Categories /> : <Login />} />
-          <Route path='/categories/:category_id' element={currentUser ? <Category /> : <Login />} />
-          <Route path='/categories/:category/:doctor_id' element={currentUser ? <Doctor /> : <Login />} />
-          <Route path='/profile' element={currentUser ? <Profile /> : <Login />} />
-          <Route path='/update-health-category' element={currentUser ? <UpdateHealthCategory /> : <Login />} />
-          <Route path='/update-name-lastname' element={currentUser ? <UpdateName /> : <Login />} />
+
+          {routes.map((route) => {
+            return <Route
+              path={route.route}
+              element={defineRoutePermission(route.component, route.protected)}
+            />
+          })}
 
         </Routes>
       </BrowserRouter>

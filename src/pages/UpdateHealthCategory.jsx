@@ -79,8 +79,8 @@ const UpdateHealthCategory = () => {
             <div className="mt-8 mb-8">
                 {user.role == "DOCTOR" &&
                     <form onSubmit={updateHealthCategory}>
-                        <label htmlFor="health-categories">Your main health category</label>
-                        <select className="bg-teal-50 w-full py-3 px-4 rounded-lg font-regular" id="health_category" name="health-categories" onChange={selectedCategory} required>
+                        <label htmlFor="health-categories">Select your main health category to make sure your account is fully compiled and active</label>
+                        <select className="bg-teal-50 w-full py-3 px-4 rounded-lg font-regular mt-4" id="health_category" name="health-categories" onChange={selectedCategory} required>
                             <option disabled selected> Select your category</option>
                             {healthCategories.map((category) => {
                                 return (

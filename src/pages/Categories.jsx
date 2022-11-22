@@ -42,7 +42,7 @@ const Categories = () => {
                         return (                            
                             <SimpleCard
                                 key={elem.category_id}
-                                item={elem.health_category}
+                                category={elem.health_category}
                                 onClickFunction={() => navigate(`/categories/${elem.category_id}`, { state: elem })}                                
                             />
                         )

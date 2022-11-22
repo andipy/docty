@@ -5,9 +5,13 @@ import { AuthContext } from "../context/AuthContext";
 import { storage } from "../services/firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 
+import { db } from "../services/firebase";
+
 import Container from "../components/Container";
 import Nav from "../components/Nav";
 import { useContext } from "react";
+import { collection, getDocs, updateDoc, query, doc, where, serverTimestamp } from "firebase/firestore";
+import PreviousMap from "postcss/lib/previous-map";
 
 const Doctor = () => {
 
@@ -44,11 +48,27 @@ const Doctor = () => {
             // Handle any errors
         });        
     }
+    const followDoctor = async () => {
+        const collectionRef = collection(db, "users");
+        const q = query(collectionRef, where("uid", "==", state.uid));
+        const docSnap = await getDocs(q);
+        docSnap.forEach(async (el) => {
+            const docRef = doc(db, "users", el.id);
+            console.log(docRef, "doccchy");
+            await updateDoc(docRef, {
+                followers: [...this, currentUser.uid],
+                updated_at: serverTimestamp()
+            })
+        })
+    }
+
     useEffect(()=> {
-        getImage()
+        getImage();
     },[]);
 
-    console.log(state.followers);
+    
+
+    console.log(state);
 
     return (
         <div>
@@ -62,7 +82,7 @@ const Doctor = () => {
                     <div className="flex flex-col">
                         <h2 className="text-xl font-semibold">{state.first_name}</h2>
                         <div className="flex gap-1 mt-1 flex-wrap">
-                            {state.specialties.map((specialty) => {
+                            {state.specialties?.map((specialty) => {
                                 return (
                                     <div
                                         className="text-xs py-1 px-2 rounded-full bg-teal-100"
@@ -76,7 +96,10 @@ const Doctor = () => {
                         <p>{state.followers.length} subscribers</p>
                     </div>
                 </div>
-                <button className={`mt-4 w-full rounded-md p-3 font-semibold ${isSubscribed ? "bg-gray-200 text-gray-400" : "bg-teal-400"}`}>
+                <button
+                    className={`mt-4 w-full rounded-md p-3 font-semibold ${isSubscribed ? "bg-gray-200 text-gray-400" : "bg-teal-400"}`}
+                    onClick={followDoctor}
+                >
                     {isSubscribed ? "Unsubscribe" : "Subscribe"}
                 </button>
             </Container>

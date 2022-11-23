@@ -10,8 +10,7 @@ import { db } from "../services/firebase";
 import Container from "../components/Container";
 import Nav from "../components/Nav";
 import { useContext } from "react";
-import { collection, getDocs, updateDoc, query, doc, where, serverTimestamp } from "firebase/firestore";
-import PreviousMap from "postcss/lib/previous-map";
+import { collection, getDocs, updateDoc, query, doc, where, serverTimestamp, onSnapshot } from "firebase/firestore";
 
 const Doctor = () => {
 
@@ -19,16 +18,25 @@ const Doctor = () => {
 
     const { state } = useLocation();
 
+    const [followers, setFollowers] = useState([]);
     const [isSubscribed, setIsSubscribed] = useState(false);
+    const checkFollowers = async() => {
+        const q = query(collection(db, "users"), where("uid", "==", state.uid));
+        const unsubscribe =  onSnapshot(q, (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                doc.data().followers.map((follower) => {
+                    if ( follower == currentUser.uid ) {
+                        setIsSubscribed(true);
+                    }
+                })
+                setFollowers(doc.data().followers)
+            })
+        });
+        return unsubscribe;
+    }
     useEffect(() => {
-        state.followers.map((follower) => {
-            if ( follower == currentUser.uid ) {
-                setIsSubscribed(true);
-            } else {
-                setIsSubscribed(false);
-            }
-        })
-    }, []);
+        checkFollowers();
+    }, [followers]);
 
     const [image, setImage] = useState("");
     const getImage = () => {
@@ -48,27 +56,44 @@ const Doctor = () => {
             // Handle any errors
         });        
     }
-    const followDoctor = async () => {
-        const collectionRef = collection(db, "users");
-        const q = query(collectionRef, where("uid", "==", state.uid));
-        const docSnap = await getDocs(q);
-        docSnap.forEach(async (el) => {
-            const docRef = doc(db, "users", el.id);
-            console.log(docRef, "doccchy");
-            await updateDoc(docRef, {
-                followers: [...this, currentUser.uid],
-                updated_at: serverTimestamp()
-            })
-        })
-    }
-
     useEffect(()=> {
         getImage();
     },[]);
 
-    
-
-    console.log(state);
+    const handleFollow = async () => {
+        if ( !isSubscribed ) {
+            const newArray = followers;
+            newArray.push(currentUser.uid);
+            const q = query(collection(db, "users"), where("uid", "==", state.uid));
+            const docSnap = await getDocs(q);
+            docSnap.forEach(async (el) => {
+                const docRef = doc(db, "users", el.id);
+                console.log(el.data(), "doccchy");
+                await updateDoc(docRef, {
+                    followers: newArray,
+                    updated_at: serverTimestamp()
+                })
+            });
+            setIsSubscribed(true);
+        } else {
+            const newArray = followers;
+            const index = newArray.indexOf(currentUser.uid);
+            if (index > -1) {
+                newArray.splice(index, 1);
+            }
+            const q = query(collection(db, "users"), where("uid", "==", state.uid));
+            const docSnap = await getDocs(q);
+            docSnap.forEach(async (el) => {
+                const docRef = doc(db, "users", el.id);
+                console.log(el.data(), "doccchy");
+                await updateDoc(docRef, {
+                    followers: newArray,
+                    updated_at: serverTimestamp()
+                })
+            });
+            setIsSubscribed(false);
+        }
+    }
 
     return (
         <div>
@@ -93,12 +118,12 @@ const Doctor = () => {
                                 )
                             })}
                         </div>
-                        <p>{state.followers.length} subscribers</p>
+                        <p>{followers.length} subscribers</p>
                     </div>
                 </div>
                 <button
                     className={`mt-4 w-full rounded-md p-3 font-semibold ${isSubscribed ? "bg-gray-200 text-gray-400" : "bg-teal-400"}`}
-                    onClick={followDoctor}
+                    onClick={handleFollow}
                 >
                     {isSubscribed ? "Unsubscribe" : "Subscribe"}
                 </button>

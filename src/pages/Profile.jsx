@@ -75,17 +75,16 @@ const Profile = () => {
     };
 
     // object with the data about the logout button
-    const buttonLogout = {
-        label: 'Logout',
-        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
-        disabled: false
-    }
-
     const buttonEdit = {
         label: 'Edit',
-        style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
+        style: 'w-full bg-teal-400 text-dark-900 mt-2 py-3 rounded-lg font-regular',
         disabled: false
     }
+    const buttonLogout = {
+        label: 'Logout',
+        style: 'w-full border-solid border-2 border-teal-400 text-teal-400 mt-3 py-3 rounded-lg font-semibold',
+        disabled: false
+    }    
 
     const inputs = [
         {
@@ -114,11 +113,11 @@ const Profile = () => {
         <Nav />
         <Container>
             <div className="mt-8 mb-8">
-                <div className="mb-10">
+                <div className="mb-10 text-white">
                     <div>Your email is {user.email}</div>
                 </div>
 
-                <div className="mb-10">
+                <div className="mb-10 text-white">
                     <div>You are {user.first_name} {user.last_name}</div>
                     <Button
                         button={buttonEdit}
@@ -126,12 +125,12 @@ const Profile = () => {
                     />
                 </div>
 
-                <div className="mb-10">
+                <div className="mb-10 text-white">
                     <div>You are a {user.role}</div>
                 </div>
 
                 {user.role == "DOCTOR" &&
-                    <div className="mb-10">
+                    <div className="mb-10 text-white">
                         <div>Your health category is {user.health_category}</div>
                         <Button
                             button={buttonEdit}

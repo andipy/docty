@@ -60,7 +60,7 @@ const UpdateName = () => {
 
     const buttonConfirm = {
         label: 'Confirm',
-        style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
+        style: 'w-full bg-teal-400 text-dark-900 mt-2 py-3 rounded-lg font-regular',
         disabled: false
     }
 

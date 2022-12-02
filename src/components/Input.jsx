@@ -2,10 +2,10 @@ import React from "react";
 
 const Input = ({ placeholder, type, label, name, onChange }) => {
     return (
-        <div className="mb-4">
-            <label>{label}</label>
+        <div className="mb-6">
+            <label className="text-white">{label}</label>
             <input
-                className="bg-teal-50 w-full py-3 px-4 rounded-lg font-regular"
+                className="mt-1 bg-dark-secondary-700 w-full py-3 px-4 rounded-lg font-regular text-white"
                 placeholder={placeholder}
                 type={type}
                 name={name}

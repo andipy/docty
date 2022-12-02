@@ -80,13 +80,13 @@ const Signup = () => {
         if ( valuesValidity.email == true && valuesValidity.create_password == true && valuesValidity.confirm_password == true && valuesValidity.checkbox == true ) {
             setButtonSignup({
                 label: 'Create account',
-                style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
+                style: 'w-full bg-teal-400 text-dark-900 mt-3 py-3 rounded-lg font-regular',
                 disabled: false                
             });
         } else {
             setButtonSignup({
                 label: 'Create account',
-                style: 'w-full bg-gray-300 text-gray-400 mt-3 py-3 rounded-lg font-regular',
+                style: 'w-full bg-dark-tertiary-800 text-dark-tertiary-700 mt-3 py-3 rounded-lg font-regular',
                 disabled: true                
             });
         }
@@ -166,7 +166,7 @@ const Signup = () => {
     // object with the data about the go-to-login button
     const buttonGoToLogin = {
         label: 'Go to login',
-        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
+        style: 'w-full border-solid border-2 border-teal-400 text-teal-400 mt-3 py-3 rounded-lg font-semibold',
         disabled: false
     }
 
@@ -180,8 +180,8 @@ const Signup = () => {
 
     return (
         <Container>
-            <h1 className="font-semibold mb-2">Hello,</h1>
-            <p className="font-bold text-xl mb-8">Create your account {"as a " + state?.toLowerCase()} with email and password!</p>
+            <h1 className="font-semibold mb-2 text-white">Hello,</h1>
+            <p className="font-bold text-xl mb-8 text-white">Create your account {"as a " + state?.toLowerCase()} with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {
                     return (                    
@@ -203,7 +203,7 @@ const Signup = () => {
                 />
                 <Button button={buttonSignup} />            
             </form>
-            <h4 className="text-xl font-bold">Already have an account?</h4>
+            <h4 className="text-xl font-bold text-white">Already have an account?</h4>
             <Button
                 button={buttonGoToLogin}
                 onClickFunction={()=>{navigate("/login")}}

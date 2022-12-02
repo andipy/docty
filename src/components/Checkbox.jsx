@@ -9,7 +9,7 @@ const Checkbox = ({ type, name, handleCheck }) => {
                 name={name}
                 onChange={handleCheck}
             />
-            <p className="">I accept the <span className="font-semibold underline">terms and conditions</span> of the service</p>
+            <p className="text-white">I accept the <span className="font-semibold underline">terms and conditions</span> of the service</p>
         </div>
     )
 }

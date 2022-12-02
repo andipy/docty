@@ -36,7 +36,7 @@ const Category = () => {
         <div>        
             <Nav />
             <Container>
-                <h2 className="text-3xl font-bold">{state.health_category}</h2>
+                <h2 className="text-3xl font-bold text-white">{state.health_category}</h2>
                 <div className="pb-12">
                     {doctors?.map((doctor) => {
                         return (

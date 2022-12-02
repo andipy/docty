@@ -36,7 +36,7 @@ const Categories = () => {
             <Nav />
             
             <Container>
-                <h2 className="text-3xl font-bold">Categories</h2>
+                <h2 className="text-3xl font-bold text-white">Categories</h2>
                 <div className="pb-12">
                     {categories?.map((elem) => {
                         return (                            

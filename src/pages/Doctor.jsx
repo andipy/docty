@@ -105,7 +105,7 @@ const Doctor = () => {
                         <img src={image} alt="" className={!image ? "hidden" : "w-full h-full object-cover"} />
                     </div>
                     <div className="flex flex-col">
-                        <h2 className="text-xl font-semibold">{state.first_name}</h2>
+                        <h2 className="text-xl font-semibold text-white">{state.first_name}</h2>
                         <div className="flex gap-1 mt-1 flex-wrap">
                             {state.specialties?.map((specialty) => {
                                 return (
@@ -118,11 +118,11 @@ const Doctor = () => {
                                 )
                             })}
                         </div>
-                        <p>{followers.length} subscribers</p>
+                        <p className="text-white">{followers.length} subscribers</p>
                     </div>
                 </div>
                 <button
-                    className={`mt-4 w-full rounded-md p-3 font-semibold ${isSubscribed ? "bg-gray-200 text-gray-400" : "bg-teal-400"}`}
+                    className={`mt-4 w-full rounded-md p-3 font-regular ${isSubscribed ? "bg-dark-tertiary-800 text-dark-tertiary-700" : "bg-teal-400"}`}
                     onClick={handleFollow}
                 >
                     {isSubscribed ? "Unsubscribe" : "Subscribe"}

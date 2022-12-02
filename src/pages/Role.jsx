@@ -34,30 +34,30 @@ const Role = () => {
     // object with the data about the go-to-login button
     const buttonGoToLogin = {
         label: 'Go to login',
-        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
+        style: 'w-full border-solid border-2 border-teal-400 text-teal-400 mt-3 py-3 rounded-lg font-semibold',
         disabled: false
     }    
 
     return (
         <Container>
-            <h1 className="text-3xl font-bold mb-6">Signup as a:</h1>
+            <h1 className="text-3xl font-bold mb-6 text-white">Signup as a:</h1>
             <div className="flex flex-col">
                 <button
                     onClick={setPatient}
-                    className="py-10 w-full bg-gray-100 rounded-md mb-4 font-semibold text-lg"
+                    className="py-10 w-full bg-dark-secondary-800 rounded-md mb-4 font-semibold text-lg text-white"
                 >
                     Patient
                 </button>
                 <button
                     onClick={setDoctor}
-                    className="py-10 w-full bg-gray-100 rounded-md mb-4 font-semibold text-lg"
+                    className="py-10 w-full bg-dark-secondary-800 rounded-md mb-4 font-semibold text-lg text-white"
                 >
                     Doctor
                 </button>
             </div>
 
             <div className="mt-16">
-                <h4 className="text-xl font-bold">Already have an account?</h4>
+                <h4 className="text-xl font-bold text-white">Already have an account?</h4>
                 <Button
                     button={buttonGoToLogin}
                     onClickFunction={()=>{navigate("/login")}}

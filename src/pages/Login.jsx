@@ -58,13 +58,13 @@ const Login = () => {
         if ( valuesValidity.email == true && valuesValidity.password == true ) {
             setButton({
                 label: 'Login',
-                style: 'w-full bg-teal-900 text-white mt-3 py-3 rounded-lg font-regular',
+                style: 'w-full bg-teal-400 text-dark-900 mt-3 py-3 rounded-lg font-regular',
                 disabled: false                
             });
         } else {
             setButton({
                 label: 'Login',
-                style: 'w-full bg-gray-300 text-gray-400 mt-3 py-3 rounded-lg font-regular',
+                style: 'w-full bg-dark-tertiary-800 text-dark-tertiary-700 mt-3 py-3 rounded-lg font-regular',
                 disabled: true                
             });
         }
@@ -108,7 +108,7 @@ const Login = () => {
 
     const buttonGoToSignup = {
         label: 'Go to signup',
-        style: 'w-full border-solid border-2 border-teal-900 text-teal-900 mt-3 py-3 rounded-lg font-semibold',
+        style: 'w-full border-solid border-2 border-teal-400 text-teal-400 mt-3 py-3 rounded-lg font-semibold',
         disabled: false
     }
 
@@ -120,8 +120,8 @@ const Login = () => {
 
     return (
         <Container>
-            <h1 className="text-3xl font-bold mb-2">Welcome back,</h1>
-            <p className="font-semibold mb-8">Login with email and password!</p>
+            <h1 className="text-3xl font-bold mb-2 text-white">Welcome back,</h1>
+            <p className="font-semibold mb-8 text-white">Login with email and password!</p>
             <form className="mb-8" action="" onSubmit={handleSubmit}>
                 {inputs.map((input) => {
                     return (                    
@@ -138,7 +138,7 @@ const Login = () => {
                 })}                
                 <Button button={button} />                
             </form>
-            <h4 className="text-xl font-bold">Don't have an account yet?</h4>
+            <h4 className="text-xl font-bold text-white">Don't have an account yet?</h4>
             <Button
                 button={buttonGoToSignup}
                 onClickFunction={()=>{navigate("/role")}}            

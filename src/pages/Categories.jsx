@@ -6,6 +6,7 @@ import { db } from '../services/firebase';
 
 // import components
 import Nav from '../components/Nav';
+import Appbar from "../components/Appbar";
 import SimpleCard from '../components/SimpleCard';
 import Container from "../components/Container";
 
@@ -36,7 +37,7 @@ const Categories = () => {
             <Nav />
             
             <Container>
-                <h2 className="text-3xl font-bold text-white">Categories</h2>
+                <h2 className="text-2xl font-semibold text-white tracking-wide">Categories</h2>
                 <div className="pb-12">
                     {categories?.map((elem) => {
                         return (                            
@@ -49,6 +50,8 @@ const Categories = () => {
                     })}
                 </div>
             </Container>
+
+            <Appbar />
         </div>        
     )
 }

@@ -9,7 +9,7 @@ const SimpleCard = ({ first_name, last_name, category, image, onClickFunction })
             <div className="rounded-md overflow-clip">
                 <img src="" alt="" className="object-cover h-36 w-full" />
             </div>
-            <h4 className="text-xl font-semibold mt-1 text-white">{first_name} {last_name} {category}</h4>
+            <h4 className="text-lg font-regular mt-1 text-white">{first_name} {last_name} {category}</h4>
         </div>
     )
 }

@@ -13,6 +13,8 @@ import Doctor from "./pages/Doctor";
 import Profile from "./pages/Profile";
 import UpdateHealthCategory from "./pages/UpdateHealthCategory";
 import UpdateName from "./pages/UpdateName";
+import GroupChats from "./pages/GroupChats";
+import PrivateChats from "./pages/PrivateChats";
 
 
 import { collection, query, where, onSnapshot } from "firebase/firestore";
@@ -99,6 +101,14 @@ function App() {
       route: "/update-name-lastname",
       component: <UpdateName />,
       protected: true
+    },{
+      route: "/group-chats",
+      component: <GroupChats />,
+      protected: true
+    },{
+      route: "/private-chats",
+      component: <PrivateChats />,
+      protected: true
     }
   ]
 
@@ -109,6 +119,7 @@ function App() {
 
           {routes.map((route) => {
             return <Route
+              key={route.route}
               path={route.route}
               element={defineRoutePermission(route.component, route.protected)}
             />

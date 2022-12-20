@@ -127,6 +127,16 @@ const Doctor = () => {
                 >
                     {isSubscribed ? "Unsubscribe" : "Subscribe"}
                 </button>
+
+                <div class="text-white text-2xl">video list</div>
+                <div class="text-white">video 1</div>
+                <div class="text-white">video 2</div>
+                <div class="text-white">video 3</div> 
+
+                <div class="text-white text-2xl mt-10">group (join the group)</div>
+
+                <div class="text-white text-2xl mt-10">private chat with this doctor</div>
+                
             </Container>
         </div>
     )

@@ -108,7 +108,7 @@ const Login = () => {
 
     const buttonGoToSignup = {
         label: 'Go to signup',
-        style: 'w-full border-solid border-2 border-teal-400 text-teal-400 mt-3 py-3 rounded-lg font-semibold',
+        style: 'w-full border-solid border-2 border-purple-400 text-teal-400 mt-3 py-3 rounded-lg font-semibold',
         disabled: false
     }
 

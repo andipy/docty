@@ -7,6 +7,7 @@ import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyAUJG6YZmr44QILjwzB5LIgk60GGqnyqIU",
   authDomain: "docty-chat-test.firebaseapp.com",
+  databaseURL: "https://docty-chat-test-default-rtdb.firebaseio.com",
   projectId: "docty-chat-test",
   storageBucket: "docty-chat-test.appspot.com",
   messagingSenderId: "919142266520",
